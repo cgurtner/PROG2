@@ -1,12 +1,24 @@
 import secrets # this needs python 3.6+
+from Client import Client
 
 class BankAccount:
-    def __init__(self, is_open = True, balance = 0, currency = 'CHF'):
+    def __init__(self, client: Client, is_open=True, balance=0, currency='CHF'):
+        # this is the owner of the account
+        self.client = client
         # this simulates the IBAN.
         self.iban = secrets.token_hex(16).upper()
         self.is_open = is_open
         self.balance = balance
         self.currecy = currency
+
+    def __str__(self):
+        ret = 'Account ' + self.get_iban() + ' is '
+        if self.get_is_open():
+            ret += 'open '
+        else:
+            ret += 'closed '
+        ret += 'and has ' + str(self.get_balance()) + ' ' + self.get_currency() + ' stored in it.'
+        return ret
 
     def get_iban(self) -> str:
         return self.iban

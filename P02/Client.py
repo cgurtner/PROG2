@@ -1,6 +1,3 @@
-from ctypes import addressof
-
-
 from datetime import datetime
 
 class Client:
