@@ -1,34 +1,37 @@
 import secrets # this needs python 3.6+
 
 class BankAccount:
-    def __init__(self, isOpen = True, balance = 0, currency = 'CHF'):
+    def __init__(self, is_open = True, balance = 0, currency = 'CHF'):
         # this simulates the IBAN.
         self.iban = secrets.token_hex(16).upper()
-        self.isOpen = isOpen
+        self.is_open = is_open
         self.balance = balance
         self.currecy = currency
 
-    def getIBAN(self) -> str:
+    def get_iban(self) -> str:
         return self.iban
 
-    def getIsOpen(self) -> bool:
-        return self.isOpen
+    def get_is_open(self) -> bool:
+        return self.is_open
 
-    def setIsOpen(self, newIsOpen) -> None:
-        self.isOpen = newIsOpen
+    def set_is_open(self, new_is_open) -> None:
+        self.is_open = new_is_open
     
-    def getBalance(self) -> int:
+    def get_balance(self) -> int:
         return self.balance
 
-    def getCurrency(self) -> str:
+    def get_currency(self) -> str:
         return self.currecy
 
-    def printBalance(self) -> None:
-        print('The balance of account ' + self.iban + ' is ' + str(self.balance) + self.currecy + '.')
+    def open(self) -> None:
+        self.set_is_open(True)
+
+    def close(self) -> None:
+        self.set_is_open(False)
     
     def deposit(self, amount) -> None:
         # this should be changed with proper exception handling
-        if not self.isOpen:
+        if not self.is_open:
             print('This account is closed!')
         elif self.balance + amount > 100000:
             print('This would exceed the limit.')
@@ -37,42 +40,45 @@ class BankAccount:
 
     def withdraw(self, amount) -> None:
         # this should be changed with proper exception handling
-        if not self.isOpen:
+        if not self.is_open:
             print('This account is closed!')
         elif self.balance - amount < 0:
             print('You can\'t withdraw that amount!')
         else:
             self.balance -= amount
 
+    def print_balance(self) -> None:
+        print('The balance of account ' + self.iban + ' is ' + str(self.balance) + self.currecy + '.')
+
 # this code is only ran if invoced directly e.g. python3 BankAccount.py
 # it is prevented from being run if imported into other file
 if __name__ == '__main__':
     acc = BankAccount()
-    print('Test ' + acc.getIBAN())
+    print('Test ' + acc.get_iban())
     acc.deposit(50000)
-    acc.printBalance()
+    acc.print_balance()
     acc.withdraw(2)
-    acc.printBalance()
+    acc.print_balance()
     print('\n')
 
     acc2 = BankAccount()
-    print('Test ' + acc2.getIBAN())
+    print('Test ' + acc2.get_iban())
     acc2.deposit(90000)
-    acc2.printBalance()
+    acc2.print_balance()
     acc2.withdraw(91000)
-    acc2.printBalance()
+    acc2.print_balance()
     print('\n')
 
     acc3 = BankAccount()
-    print('Test ' + acc3.getIBAN())
+    print('Test ' + acc3.get_iban())
     acc3.deposit(105000)
-    acc3.printBalance()
+    acc3.print_balance()
     print('\n')
 
     acc4 = BankAccount()
-    print('Test ' + acc4.getIBAN())
+    print('Test ' + acc4.get_iban())
     acc4.deposit(50000)
-    acc4.printBalance()
-    acc4.setIsOpen(False)
+    acc4.print_balance()
+    acc4.close()
     acc4.withdraw(10000)
-    acc4.printBalance()
+    acc4.print_balance()
