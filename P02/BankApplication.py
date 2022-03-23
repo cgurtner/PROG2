@@ -26,21 +26,21 @@ class BankApplication:
             if not self.client:
                 print('###### Bank of Pythonia ###### ')
                 print('You are not a client yet. To access your E-Banking menu please give us some information:')
-                self.client = self.open_client()
+                self.client = self.create_client()
             if not self.has_accounts():
                 print('You have no accounts yet, please open one:')
-                self.add_account(self.open_account())
+                self.add_account(self.create_account())
 
-    def open_client(self) -> Client:
+    def create_client(self) -> Client:
         first_name = input('Your first name: ')
         name = input('Your last name: ')
         address = input('Please give us your address: ')
         birthday = input('Your date of birth in the format YYYY-MM-DD: ')
         return Client(first_name, name, address, birthday)
 
-    def open_account(self) -> BankAccount:
+    def create_account(self) -> BankAccount:
         created_account = False
-        # this explizit bool()-cast is needed because it trigger the __bool__ magic inside YouthAccount
+        # this explizit bool()-cast is needed because it triggers the __bool__ magic inside YouthAccount
         while bool(created_account) == False:
             choice = int(input('Do you want to open a [1] SavingsAccount or [2] YouthAccount? '))
             if choice == 1:
