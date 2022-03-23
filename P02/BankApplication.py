@@ -15,6 +15,9 @@ class BankApplication:
     def get_accounts(self) -> dict:
         return self.accounts
 
+    def get_current_account(self) -> BankAccount:
+        return self.current_account
+
     def has_accounts(self) -> bool:
         return len(self.get_accounts()) > 0
 
@@ -24,12 +27,24 @@ class BankApplication:
     def run(self):
         while True:
             if not self.client:
-                print('###### Bank of Pythonia ###### ')
-                print('You are not a client yet. To access your E-Banking menu please give us some information:')
+                print('###### Bank of Pythonia ######\n')
+                print('You are not a client yet.\nTo access your E-Banking menu please give us some information:\n')
                 self.client = self.create_client()
             if not self.has_accounts():
-                print('You have no accounts yet, please open one:')
+                print('\nYou have no accounts yet, please open one:')
                 self.add_account(self.create_account())
+            if self.get_current_account():
+                self.menu_account()
+                self.current_account = None
+
+            print('\n###### Main Menu ######\n')
+            print('[1] Create additional account')
+            print('[2] Account list\n')
+            choice = int(input('Type [1] or [2]: '))
+            if choice == 1:
+                self.add_account(self.create_account())
+            elif choice == 2:
+                self.current_account = self.choose_account_to_interact_with()
 
     def create_client(self) -> Client:
         first_name = input('Your first name: ')
@@ -42,12 +57,39 @@ class BankApplication:
         created_account = False
         # this explizit bool()-cast is needed because it triggers the __bool__ magic inside YouthAccount
         while bool(created_account) == False:
-            choice = int(input('Do you want to open a [1] SavingsAccount or [2] YouthAccount? '))
+            choice = int(input('\nDo you want to open a [1] SavingsAccount or [2] YouthAccount? '))
             if choice == 1:
                 created_account = SavingAccount(self.get_client())
             elif choice == 2:
                 created_account = YouthAccount(self.get_client())
         return created_account
+
+    def choose_account_to_interact_with(self) -> BankAccount:
+        print('\n###### Account List ######\n')
+        for key, obj in self.get_accounts().items():
+            print(obj)
+        iban = input('\nType in the IBAN you wanna interact with: ')
+        if iban in self.get_accounts():
+            return self.get_accounts()[iban]
+        else:
+            return self.choose_account_to_interact_with()
+
+    def menu_account(self) -> None:
+        print('\n###### Account Menu ######\n')
+        print(self.get_current_account())
+        print('\n[1] deposit')
+        print('[2] withdraw')
+        print('[3] close')
+        print('[4] back to main menu\n')
+        action = int(input('Type the number of you choice: '))
+        if action == 1:
+            amount = int(input('What amount do you wanna deposit: '))
+            self.get_current_account().deposit(amount)
+        elif action == 2:
+            amount = int(input('What amount do you wanna withdraw: '))
+            self.get_current_account().withdraw(amount)
+        elif action == 3:
+            self.get_current_account().close()
 
 if __name__ == '__main__':
     app = BankApplication()

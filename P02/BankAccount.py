@@ -6,7 +6,7 @@ class BankAccount:
         # this is the owner of the account
         self.client = client
         # this simulates the IBAN.
-        self.iban = secrets.token_hex(16).upper()
+        self.iban = secrets.token_hex(2).upper()
         self.is_open = is_open
         self.balance = balance
         self.currecy = currency
