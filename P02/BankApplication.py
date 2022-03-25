@@ -31,25 +31,24 @@ class BankApplication:
                 print('###### Bank of Pythonia ######\n')
                 print('You are not a client yet.\nTo access your E-Banking menu please give us some information:\n')
                 self.client = self.create_client()
-            if not self.has_accounts():
+            elif not self.has_accounts():
                 print('\nYou have no accounts yet, please open one:')
                 self.add_account(self.create_account())
-            if self.get_current_account():
+            elif self.get_current_account():
                 self.menu_account()
-                self.current_account = None
-
-            print('\n###### Main Menu ######\n')
-            print('[1] Create additional account')
-            print('[2] Choose account')
-            print('[3] Print Tax-Report\n')
-            choice = int(input('Type [1], [2] or [3]: '))
-            if choice == 1:
-                self.add_account(self.create_account())
-            elif choice == 2:
-                self.current_account = self.choose_account_to_interact_with()
-            elif choice == 3:
-                tax_report = TaxReport(self)
-                tax_report.generate()
+            else:
+                print('\n###### Main Menu ######\n')
+                print('[1] Create additional account')
+                print('[2] Choose account')
+                print('[3] Print Tax-Report\n')
+                choice = int(input('Type [1], [2] or [3]: '))
+                if choice == 1:
+                    self.add_account(self.create_account())
+                elif choice == 2:
+                    self.current_account = self.choose_account_to_interact_with()
+                elif choice == 3:
+                    tax_report = TaxReport(self)
+                    tax_report.generate()
 
 
     def create_client(self) -> Client:
@@ -68,6 +67,7 @@ class BankApplication:
                 created_account = SavingAccount(self.get_client())
             elif choice == 2:
                 created_account = YouthAccount(self.get_client())
+                if not created_account: print('Not possible, you are too old!')
         return created_account
 
     def choose_account_to_interact_with(self) -> BankAccount:
@@ -89,14 +89,16 @@ class BankApplication:
         print('[4] back to main menu\n')
         action = int(input('Type the number of you choice: '))
         if action == 1:
-            amount = int(input('What amount do you wanna deposit: '))
+            amount = float(input('What amount do you wanna deposit: '))
             self.get_current_account().deposit(amount)
         elif action == 2:
-            amount = int(input('What amount do you wanna withdraw: '))
+            amount = float(input('What amount do you wanna withdraw: '))
             self.get_current_account().withdraw(amount)
         elif action == 3:
             self.get_current_account().close()
             del self.accounts[self.get_current_account().get_iban()]
+            self.current_account = None
+        elif action == 4:
             self.current_account = None
 
 if __name__ == '__main__':
