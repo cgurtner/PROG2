@@ -13,8 +13,10 @@ class SavingAccount(BankAccount):
 
     # Overrides super().withdraw()
     def withdraw(self, amount) -> None:
+        amount_to_withdraw = amount
         if not self.is_open:
             print('This account is closed!')
         elif self.balance - amount < 0:
-            amount += amount * SavingAccount.WITHDRAW_COMMISSION
-        self.balance -= amount
+            amount_to_withdraw = amount_to_withdraw + amount_to_withdraw * SavingAccount.WITHDRAW_COMMISSION
+        self.balance -= amount_to_withdraw
+        self.add_movement('withdraw', amount_to_withdraw)

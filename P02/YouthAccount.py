@@ -1,3 +1,4 @@
+from datetime import datetime
 from BankAccount import BankAccount
 from Client import Client
 
@@ -20,4 +21,19 @@ class YouthAccount(BankAccount):
 
     # Overrides super().withdraw()
     def withdraw(self, amount) -> None:
-        super().withdraw(amount)
+        if self.withdraw_allowed(amount):
+            super().withdraw(amount)
+        else:
+            print('You can\'t withdraw that amount this month!')
+    
+    def withdraw_allowed(self, amount) -> bool:
+        date = datetime.now()
+        date_string = str(date.year) + '-' + str(date.month)
+        move = self.get_movement()
+        if date_string in move['withdraw']:
+            if move['withdraw'][date_string] + amount > 2000:
+                return False
+        elif amount > 2000:
+            return False
+        return True
+

@@ -1,4 +1,5 @@
 import secrets # this needs python 3.6+
+from datetime import datetime
 from Client import Client
 
 class BankAccount:
@@ -10,6 +11,7 @@ class BankAccount:
         self.is_open = is_open
         self.balance = balance
         self.currecy = currency
+        self.movement = {'deposit': {}, 'withdraw': {}}
 
     def __str__(self):
         ret = 'Account ' + self.get_iban() + ' is '
@@ -35,6 +37,17 @@ class BankAccount:
     def get_currency(self) -> str:
         return self.currecy
 
+    def add_movement(self, type, amount):
+        date = datetime.now()
+        date_string = str(date.year) + '-' + str(date.month)
+        if date_string in self.movement[type]:
+            self.movement[type][date_string] += amount
+        else:
+            self.movement[type][date_string] = amount
+
+    def get_movement(self) -> dict: 
+        return self.movement
+
     def open(self) -> None:
         self.set_is_open(True)
 
@@ -43,21 +56,23 @@ class BankAccount:
     
     def deposit(self, amount) -> None:
         # this should be changed with proper exception handling
-        if not self.is_open:
-            print('This account is closed!')
-        elif self.balance + amount > 100000:
+        if not self.get_is_open():
+            print('This account does not exist anymore!')
+        elif self.get_balance() + amount > 100000:
             print('This would exceed the limit.')
         else:
             self.balance += amount
+            self.add_movement('deposit', amount)
 
     def withdraw(self, amount) -> None:
         # this should be changed with proper exception handling
         if not self.is_open:
             print('This account is closed!')
         elif self.balance - amount < 0:
-            print('You can\'t withdraw that amount!')
+            print('You don\'t have enough money!')
         else:
             self.balance -= amount
+            self.add_movement('withdraw', amount)
 
     def print_balance(self) -> None:
         print('The balance of account ' + self.iban + ' is ' + str(self.balance) + self.currecy + '.')
