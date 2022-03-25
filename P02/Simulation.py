@@ -1,7 +1,7 @@
 from SavingAccount import SavingAccount
 from YouthAccount import YouthAccount
 from Client import Client
-from time import time, sleep
+from time import time
 
 clientA = Client('Cyrill', 'Gurtner', 'Bahnhofstrasse 40', '1992-07-20')
 saA = SavingAccount(clientA)
