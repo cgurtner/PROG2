@@ -3,7 +3,7 @@ from datetime import datetime
 from Client import Client
 
 class BankAccount:
-    def __init__(self, client: Client, is_open=True, balance=0, currency='CHF'):
+    def __init__(self, client: Client, is_open=True, balance=0, currency='CHF', monthly_interest=0):
         # this is the owner of the account
         self.client = client
         # this simulates the IBAN.
@@ -11,6 +11,7 @@ class BankAccount:
         self.is_open = is_open
         self.balance = balance
         self.currecy = currency
+        self.monthly_interest = monthly_interest
         self.movement = {'deposit': {}, 'withdraw': {}}
 
     def __str__(self):
@@ -36,6 +37,9 @@ class BankAccount:
 
     def get_currency(self) -> str:
         return self.currecy
+
+    def pay_monthly_interest(self) -> None: 
+        self.balance -= self.balance * self.monthly_interest
 
     def add_movement(self, type, amount):
         date = datetime.now()
