@@ -4,7 +4,7 @@ from Client import Client
 
 class YouthAccount(BankAccount):
     def __init__(self, client: Client, is_open=True, balance=0, currency='CHF'):
-        # value of monthly_interest can only be changed here
+        # value of monthly_interest can only be changed here (programmatically)
         super().__init__(client, is_open, balance, currency, 0.02)
         
         # set is_open=False if on creation time the client is too old
