@@ -15,12 +15,8 @@ class BankAccount:
         self.movement = {'deposit': {}, 'withdraw': {}}
 
     def __str__(self):
-        ret = 'Account ' + self.get_iban() + ' is '
-        if self.get_is_open():
-            ret += 'open '
-        else:
-            ret += 'closed '
-        ret += 'and has ' + str(self.get_balance()) + ' ' + self.get_currency() + ' stored in it.'
+        ret = '** BankAccount ' + self.get_iban() + ' ** '
+        ret += format(self.get_balance(), '.2f') + ' ' + self.get_currency()
         return ret
 
     def get_iban(self) -> str:
@@ -70,9 +66,7 @@ class BankAccount:
 
     def withdraw(self, amount) -> None:
         # this should be changed with proper exception handling
-        if not self.is_open:
-            print('This account is closed!')
-        elif self.balance - amount < 0:
+        if self.balance - amount < 0:
             print('You don\'t have enough money!')
         else:
             self.balance -= amount

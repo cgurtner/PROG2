@@ -7,6 +7,11 @@ class SavingAccount(BankAccount):
     def __init__(self, client: Client, is_open=True, balance=0, currency='CHF', monthly_interest=0.001):
         super().__init__(client, is_open, balance, currency, monthly_interest)
 
+    def __str__(self):
+        ret = '** SavingAccount ' + self.get_iban() + ' ** '
+        ret += format(self.get_balance(), '.2f') + ' ' + self.get_currency()
+        return ret
+
     def set_monthly_interest(self, mi) -> None:
         self.monthly_interest = mi
 

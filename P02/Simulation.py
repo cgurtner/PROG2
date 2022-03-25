@@ -23,9 +23,9 @@ yaC.withdraw(400)
 yaC.withdraw(1000)
 yaC.withdraw(500)
 
+print()
 print('We start the month-loop with:')
 print(saA)
-print(yaB)
 print(yaC)
 print()
 
@@ -36,7 +36,6 @@ while t_end >= time():
     if abs(t_start - time()) % 10 == 0 or t_end - time() == 0:
         print('Monthly interest has been payed!')
         saA.pay_monthly_interest()
-        yaB.pay_monthly_interest()
         yaC.pay_monthly_interest()
         print()
 

@@ -2,6 +2,7 @@ from Client import Client
 from BankAccount import BankAccount
 from SavingAccount import SavingAccount
 from YouthAccount import YouthAccount
+from TaxReport import TaxReport
 
 class BankApplication:
     def __init__(self) -> None:
@@ -39,12 +40,17 @@ class BankApplication:
 
             print('\n###### Main Menu ######\n')
             print('[1] Create additional account')
-            print('[2] Account list\n')
-            choice = int(input('Type [1] or [2]: '))
+            print('[2] Choose account')
+            print('[3] Print Tax-Report\n')
+            choice = int(input('Type [1], [2] or [3]: '))
             if choice == 1:
                 self.add_account(self.create_account())
             elif choice == 2:
                 self.current_account = self.choose_account_to_interact_with()
+            elif choice == 3:
+                tax_report = TaxReport(self)
+                tax_report.generate()
+
 
     def create_client(self) -> Client:
         first_name = input('Your first name: ')
@@ -90,6 +96,8 @@ class BankApplication:
             self.get_current_account().withdraw(amount)
         elif action == 3:
             self.get_current_account().close()
+            del self.accounts[self.get_current_account().get_iban()]
+            self.current_account = None
 
 if __name__ == '__main__':
     app = BankApplication()

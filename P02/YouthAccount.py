@@ -11,6 +11,11 @@ class YouthAccount(BankAccount):
         if client.get_age() > 25:
             self.set_is_open(False)
     
+    def __str__(self):
+        ret = '** YoungAccount ' + self.get_iban() + ' ** '
+        ret += format(self.get_balance(), '.2f') + ' ' + self.get_currency()
+        return ret
+    
     # we use this magic function with is_open() as bool representation
     # this also allows us to use Client object in conditionals directly
     def __bool__(self):
