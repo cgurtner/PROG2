@@ -57,7 +57,7 @@ class ExchangeRateProvider:
         
         # I'm fetching the conversion rates to verify that conversion is possible
         # For the sake of this assignment I'm only fetching the possible conversion rates for CHF
-        conversion_rates = requests.get(self.get_url_conversion_rates()).json()['conversion_rates']
+        conversion_rates = self.__fetch(self.get_url_conversion_rates())['conversion_rates']
         if self.get_base_code() not in conversion_rates:
             raise Exception('conversion from base ' + self.get_base_code() + ' not possible!')
         if self.get_target_code() not in conversion_rates:
