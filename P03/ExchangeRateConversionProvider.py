@@ -26,7 +26,7 @@ class ExchangeRateConversionProvider:
         
         self.url = ExchangeRateConversionProvider.API_URL.format(API_KEY=ExchangeRateConversionProvider.API_KEY, base=params['base'], to=params['to'])
 
-    def fetch_from_amount(self, amount: float) -> json:
+    def convert(self, amount: float) -> json:
         resp = self.__fetch(self.url + str(amount))
         self.base_code = resp['base_code']
         self.target_code = resp['target_code']
@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
         print('\n#### You are calculating the conversion result from {base} to {to} ####\n'.format(base=base, to=to))
         amount = float(input('Amount to exchange: '))
-        api.fetch_from_amount(amount)
+        api.convert(amount)
 
         output = '\nConversion of {base_amount} {base_code} gives you {conversion_result} {target_code} (rate: {conversion_rate})\n'
         print(output.format(base_amount=format(amount, '.2f'), base_code=api.get_base_code(), conversion_result=api.get_formatted_conversion_result(), target_code=api.get_target_code(), conversion_rate=api.get_conversion_rate()))
