@@ -1,18 +1,17 @@
-from P02.BankApplication import BankApplication
-from P03.ExchangeRateProvider import ExchangeRateProvider
+from Provider.ExchangeRateProvider import ExchangeRateProvider
 
 class TaxReport:
     TAX_REPORT_CURRENCY = 'CHF'
 
-    def __init__(self, app: BankApplication):
+    def __init__(self, app):
         self.app = app
         self.api = ExchangeRateProvider()
 
     def generate(self):
+        print('\n###### Tax-Report ######\n')
         account_list = self.app.get_accounts()
         for key, acc in account_list.items():
             s = '** ' + acc.__class__.__name__ + ' ' + acc.get_iban() + ' ** '
-
             if acc.get_currency() == TaxReport.TAX_REPORT_CURRENCY:
                 s += format(acc.get_balance(), '.2f') + ' ' + acc.get_currency()
             else:
