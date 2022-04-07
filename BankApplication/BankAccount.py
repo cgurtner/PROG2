@@ -10,7 +10,7 @@ class BankAccount:
         self.iban = secrets.token_hex(2).upper()
         self.is_open = is_open
         self.balance = balance
-        self.currecy = currency
+        self.currency = currency
         self.monthly_interest = monthly_interest
         self.movement = {'deposit': {}, 'withdraw': {}}
 
@@ -32,7 +32,10 @@ class BankAccount:
         return self.balance
 
     def get_currency(self) -> str:
-        return self.currecy
+        return self.currency
+
+    def set_currency(self, curr) -> None:
+        self.currency = curr
 
     def pay_monthly_interest(self) -> None: 
         self.balance -= self.balance * self.monthly_interest
@@ -73,7 +76,7 @@ class BankAccount:
             self.add_movement('withdraw', amount)
 
     def print_balance(self) -> None:
-        print('The balance of account ' + self.iban + ' is ' + str(self.balance) + self.currecy + '.')
+        print('The balance of account ' + self.iban + ' is ' + str(self.balance) + self.currency + '.')
 
 # this code is only ran if invoced directly e.g. python3 BankAccount.py
 # it is prevented from being run if imported into other file

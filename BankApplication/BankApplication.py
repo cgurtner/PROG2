@@ -1,3 +1,4 @@
+from Provider.ExchangeRateProvider import ExchangeRateProvider
 from Client import Client
 from BankAccount import BankAccount
 from SavingAccount import SavingAccount
@@ -6,6 +7,7 @@ from TaxReport import TaxReport
 
 class BankApplication:
     def __init__(self) -> None:
+        self.api = ExchangeRateProvider()
         self.client = None
         self.accounts = {}
         self.current_account = None
@@ -65,10 +67,18 @@ class BankApplication:
             choice = int(input('\nDo you want to open a [1] SavingsAccount or [2] YouthAccount? '))
             if choice == 1:
                 created_account = SavingAccount(self.get_client())
+                created_account.set_currency(self.choose_currency())
             elif choice == 2:
                 created_account = YouthAccount(self.get_client())
                 if not created_account: print('Not possible, you are too old!')
+                created_account.set_currency(self.choose_currency())
         return created_account
+    
+    def choose_currency(self):
+        currencies = self.api.fetch_conversion_rates()
+        currency = input('Please choose the ISO-Code (three letter) code of the currency: ')
+        if currency not in currencies: return self.choose_currency()
+        return currency
 
     def choose_account_to_interact_with(self) -> BankAccount:
         print('\n###### Account List ######\n')

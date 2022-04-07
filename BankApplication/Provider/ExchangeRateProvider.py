@@ -49,6 +49,12 @@ class ExchangeRateProvider:
         target = self.get_target_code()
         return ExchangeRateProvider.API_CONVERSION_URL.format(base=base, target=target, amount=amount)
 
+    def fetch_conversion_rates(self):
+        return self.__fetch(self.get_url_conversion_rates())['conversion_rates']
+    
+    def fetch_conversion(self, amount):
+        return self.__fetch(self.get_url_conversion(amount))
+
     def validate(self) -> bool:
         if self.get_target_code() == None:
             raise Exception('no target_code is set!')
@@ -57,7 +63,7 @@ class ExchangeRateProvider:
         
         # I'm fetching the conversion rates to verify that conversion is possible
         # For the sake of this assignment I'm only fetching the possible conversion rates for CHF
-        conversion_rates = self.__fetch(self.get_url_conversion_rates())['conversion_rates']
+        conversion_rates = self.fetch_conversion_rates()
         if self.get_base_code() not in conversion_rates:
             raise Exception('conversion from base ' + self.get_base_code() + ' not possible!')
         if self.get_target_code() not in conversion_rates:
@@ -65,14 +71,14 @@ class ExchangeRateProvider:
 
     def conversion(self, amount: float) -> json:
         self.validate()
-        resp = self.__fetch(self.get_url_conversion(amount))
+        resp = self.fetch_conversion(amount)
         self.base_code = resp['base_code']
         self.target_code = resp['target_code']
         self.conversion_rate = float(resp['conversion_rate'])
         self.conversion_result = float(resp['conversion_result'])
 
     # this method is private because only wrapper methods should use this
-    # e.g. get_value_from_amount()
+    # e.g. fetch_conversion()
     def __fetch(self, url) -> json:
         return requests.get(url).json()
 
