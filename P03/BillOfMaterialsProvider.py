@@ -1,4 +1,6 @@
+from time import sleep
 import requests
+
 
 
 class BillOfMaterialsProvider:
@@ -14,7 +16,7 @@ class BillOfMaterialsProvider:
     # the server returns a 500er HTTP-Code
     # this is usually a server-sided problem of the api and not a problem with the request
     # conclusion: we need to handle 5xx and 4xx errors (4xx not really for this assignment)
-    def fetch(self):
+    def fetch(self, tries=0):
         try:
             resp = requests.get(BillOfMaterialsProvider.API_URL)
             resp.raise_for_status() # this throws exceptions for all HTTP-Codes 400 - 599
@@ -23,7 +25,9 @@ class BillOfMaterialsProvider:
         # therefore we only check for that
         # individual except blocks for HTTPError, ConnectionError etc... are not required in this assignment
         except requests.exceptions.RequestException  as e:
-            return self.fetch()
+            t = tries + 1
+            sleep(t)
+            return self.fetch(t)
 
 if __name__ == '__main__':
     bom = BillOfMaterialsProvider()
