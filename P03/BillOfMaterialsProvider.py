@@ -1,4 +1,3 @@
-import encodings
 from time import sleep
 import pandas as pd
 import requests
