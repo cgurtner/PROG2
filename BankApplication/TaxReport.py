@@ -18,7 +18,6 @@ class TaxReport:
                 self.api.set_base_code(acc.get_currency())
                 self.api.set_target_code(TaxReport.TAX_REPORT_CURRENCY)
                 self.api.conversion(acc.get_balance())
-                s += format(self.api.get_conversion_result(), '.2f') + ' ' + self.api.get_target_code()
-                s += '(base: ' + self.api.get_base_code() + ', rate:' + self.api.get_conversion_rate() + ')'
-
+                s += format(self.api.get_conversion_result(), '.2f') + ' ' + self.api.get_target_code() + ' '
+                s += '(base: ' + self.api.get_base_code() + ', rate: ' + str(self.api.get_conversion_rate()) + ')'
             print(s)
