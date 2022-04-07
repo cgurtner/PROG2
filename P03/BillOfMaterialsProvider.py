@@ -1,14 +1,20 @@
+import encodings
 from time import sleep
+import pandas
 import requests
 
 class BillOfMaterialsProvider:
     API_URL = 'http://160.85.252.148'
 
     def __init__(self):
-        self.__data = self.fetch()
+        data = self.fetch()
+        self.__data = self.clean(data)
     
     def get_data(self) -> dict:
         return self.__data
+    
+    def set_data(self, d) -> None:
+        self.__data = d
 
     # thoughts:
     # the server returns a 500er HTTP-Code
@@ -23,9 +29,16 @@ class BillOfMaterialsProvider:
         # therefore we only check for that
         # individual except blocks for HTTPError, ConnectionError etc... are not required in this assignment
         except requests.exceptions.RequestException  as e:
-            t = tries + 1
-            sleep(t)
+            t = tries + 1; sleep(t)
             return self.fetch(t)
+        
+    def clean(self, dt):
+        ret = {}
+        for key, value in dt.items():
+            key = str(key).encode('windows-1252').decode('utf8')
+            ret[key] = value
+        return ret
+            
 
 if __name__ == '__main__':
     bom = BillOfMaterialsProvider()
