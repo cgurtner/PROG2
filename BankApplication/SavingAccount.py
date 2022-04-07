@@ -24,3 +24,29 @@ class SavingAccount(BankAccount):
             amount_to_withdraw = amount_to_withdraw + amount_to_withdraw * SavingAccount.WITHDRAW_COMMISSION
         self.balance -= amount_to_withdraw
         self.add_movement('withdraw', amount_to_withdraw)
+
+if __name__ == '__main__':
+    c = Client('First', 'Last', 26, '1992-07-20')
+
+    acc = SavingAccount(c)
+    print('Test ' + acc.get_iban())
+    acc.deposit(50000)
+    acc.print_balance()
+    acc.withdraw(2)
+    acc.print_balance()
+    print('\n')
+
+    acc = SavingAccount(c)
+    print('Test ' + acc.get_iban())
+    print('WITHDRAW_COMMISSION = ' + str(SavingAccount.WITHDRAW_COMMISSION))
+    acc.deposit(50000)
+    acc.print_balance()
+    acc.withdraw(60000)
+    acc.print_balance()
+    print('\n')
+
+    acc = SavingAccount(c)
+    print('Test ' + acc.get_iban())
+    acc.close()
+    acc.deposit(50000)
+    print('\n')
