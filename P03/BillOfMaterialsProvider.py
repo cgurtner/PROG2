@@ -1,6 +1,6 @@
 import encodings
 from time import sleep
-import pandas
+import pandas as pd
 import requests
 
 class BillOfMaterialsProvider:
@@ -10,11 +10,8 @@ class BillOfMaterialsProvider:
         data = self.fetch()
         self.__data = self.clean(data)
     
-    def get_data(self) -> dict:
+    def get_data(self) -> pd.DataFrame:
         return self.__data
-    
-    def set_data(self, d) -> None:
-        self.__data = d
 
     # thoughts:
     # the server returns a 500er HTTP-Code
@@ -32,13 +29,21 @@ class BillOfMaterialsProvider:
             t = tries + 1; sleep(t)
             return self.fetch(t)
         
-    def clean(self, dt):
-        ret = {}
+    def clean(self, dt) -> pd.DataFrame:
+        tmp = {}
+
+        # rewrite indexes
         for key, value in dt.items():
             key = str(key).encode('windows-1252').decode('utf8')
-            ret[key] = value
-        return ret
-            
+            tmp[key] = value
+
+        # use pandas to clean values
+        df = pd.DataFrame(tmp.items(), columns=['material', 'cost'])
+        df = df[pd.to_numeric(df['cost'], errors='coerce').notnull()]
+        df = df[df['cost'] >= 0]
+        df = df.sort_values(by=['cost'])
+
+        return df
 
 if __name__ == '__main__':
     bom = BillOfMaterialsProvider()
