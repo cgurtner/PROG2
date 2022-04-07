@@ -26,7 +26,7 @@ class SavingAccount(BankAccount):
         self.add_movement('withdraw', amount_to_withdraw)
 
 if __name__ == '__main__':
-    c = Client('First', 'Last', 26, '1992-07-20')
+    c = Client('First', 'Last', 'Address', '1992-07-20')
 
     acc = SavingAccount(c)
     print('Test ' + acc.get_iban())
@@ -50,3 +50,4 @@ if __name__ == '__main__':
     acc.close()
     acc.deposit(50000)
     print('\n')
+    
