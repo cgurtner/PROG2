@@ -23,5 +23,5 @@ class TaxReport:
                 s += self.api.get_formatted_conversion_result() + ' ' + self.api.get_target_code() + ' '
                 s += '(' + acc.get_formatted_balance() + ' ' + acc.get_currency() + ' '
                 s += '[exchange-rate: ' + str(self.api.get_conversion_rate()) + '])'
-        s += '\n\n Total TAX: ' + format(total_tax, '.2f')
+        s += '\n\n Total Tax: ' + format(total_tax, '.2f')
         print(s)
