@@ -34,7 +34,7 @@ class ExchangeRateProvider:
 
     def get_conversion_rate(self) -> float:
         return self.conversion_rate
-    
+
     def get_conversion_result(self) -> float:
         return self.conversion_result
 

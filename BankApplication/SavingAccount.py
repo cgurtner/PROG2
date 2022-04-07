@@ -9,7 +9,7 @@ class SavingAccount(BankAccount):
 
     def __str__(self):
         ret = '** SavingAccount ' + self.get_iban() + ' ** '
-        ret += format(self.get_balance(), '.2f') + ' ' + self.get_currency()
+        ret += self.get_formatted_balance() + ' ' + self.get_currency()
         return ret
 
     def set_monthly_interest(self, mi) -> None:

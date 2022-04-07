@@ -70,8 +70,10 @@ class BankApplication:
                 created_account.set_currency(self.choose_currency())
             elif choice == 2:
                 created_account = YouthAccount(self.get_client())
-                if not created_account: print('Not possible, you are too old!')
-                created_account.set_currency(self.choose_currency())
+                if not created_account: 
+                    print('Not possible, you are too old!')
+                else:
+                    created_account.set_currency(self.choose_currency())
         return created_account
     
     def choose_currency(self):

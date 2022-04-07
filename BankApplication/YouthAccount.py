@@ -13,7 +13,7 @@ class YouthAccount(BankAccount):
     
     def __str__(self):
         ret = '** YoungAccount ' + self.get_iban() + ' ** '
-        ret += format(self.get_balance(), '.2f') + ' ' + self.get_currency()
+        ret += self.get_formatted_balance() + ' ' + self.get_currency()
         return ret
     
     # we use this magic function with is_open() as bool representation

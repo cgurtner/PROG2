@@ -16,7 +16,7 @@ class BankAccount:
 
     def __str__(self):
         ret = '** BankAccount ' + self.get_iban() + ' ** '
-        ret += format(self.get_balance(), '.2f') + ' ' + self.get_currency()
+        ret += self.get_formatted_balance() + ' ' + self.get_currency()
         return ret
 
     def get_iban(self) -> str:
@@ -30,6 +30,9 @@ class BankAccount:
     
     def get_balance(self) -> int:
         return self.balance
+
+    def get_formatted_balance(self) -> str:
+        return format(self.balance, '.2f')
 
     def get_currency(self) -> str:
         return self.currency
