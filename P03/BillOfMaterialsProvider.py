@@ -1,8 +1,6 @@
 from time import sleep
 import requests
 
-
-
 class BillOfMaterialsProvider:
     API_URL = 'http://160.85.252.148'
 
