@@ -39,3 +39,35 @@ class YouthAccount(BankAccount):
             return False
         return True
 
+if __name__ == '__main__':
+    c = Client('First', 'Last', 'Address', '1992-07-20')
+
+    acc = YouthAccount(c)
+    if not acc: print('Account was not opened!\n')
+
+    c = Client('First', 'Last', 'Address', '2000-07-20')
+    acc = YouthAccount(c)
+    print('Test ' + acc.get_iban())
+    acc.deposit(5000)
+    acc.print_balance()
+    acc.withdraw(500)
+    acc.print_balance()
+    print('\n')
+
+    acc = YouthAccount(c)
+    print('Test ' + acc.get_iban())
+    acc.deposit(5000)
+    acc.withdraw(3500)
+    acc.print_balance()
+    print('\n')
+
+    acc = YouthAccount(c)
+    print('Test ' + acc.get_iban())
+    acc.deposit(5000)
+    acc.withdraw(200)
+    acc.withdraw(300)
+    acc.withdraw(500)
+    acc.withdraw(1001)
+    acc.print_balance()
+    print('\n')
+    
