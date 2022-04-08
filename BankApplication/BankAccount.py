@@ -40,8 +40,8 @@ class BankAccount:
     def set_currency(self, curr) -> None:
         self.currency = curr
 
-    def pay_monthly_interest(self) -> None: 
-        self.balance -= self.balance * self.monthly_interest
+    def add_monthly_interest(self) -> None: 
+        self.balance += self.balance * self.monthly_interest
 
     def add_movement(self, type, amount):
         date = datetime.now()

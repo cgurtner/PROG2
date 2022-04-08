@@ -52,9 +52,9 @@ t_start = time()
 t_end = time() + 10 * 3
 while t_end >= time():
     if abs(t_start - time()) % 10 == 0 or t_end - time() == 0:
-        print('Monthly interest has been payed!')
-        saA.pay_monthly_interest()
-        yaB.pay_monthly_interest()
+        print('Monthly interest has been added!')
+        saA.add_monthly_interest()
+        yaB.add_monthly_interest()
         print()
 
 print('After three months following changed:')
