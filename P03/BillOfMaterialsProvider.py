@@ -4,6 +4,7 @@ import requests
 
 class BillOfMaterialsProvider:
     API_URL = 'http://160.85.252.148'
+    BACKOFF_FACTOR = 1
 
     def __init__(self):
         data = self.fetch()
@@ -25,7 +26,7 @@ class BillOfMaterialsProvider:
         # therefore we only check for that
         # individual except blocks for HTTPError, ConnectionError etc... are not required in this assignment
         except requests.exceptions.RequestException  as e:
-            t = tries + 1; sleep(t)
+            t = tries + 1; sleep(BillOfMaterialsProvider.BACKOFF_FACTOR * (2**(t - 1)))
             return self.fetch(t)
         
     def clean(self, dt) -> pd.DataFrame:
