@@ -39,7 +39,7 @@ class BillOfMaterialsProvider:
         # use pandas to clean values
         df = pd.DataFrame(tmp.items(), columns=['material', 'cost'])
         df = df[pd.to_numeric(df['cost'], errors='coerce').notnull()]
-        df = df[df['cost'] >= 0]
+        df = df[df['cost'] >= 0] # negative costs are interpreted als wrongly recorded
         df = df.sort_values(by=['cost'])
 
         return df
