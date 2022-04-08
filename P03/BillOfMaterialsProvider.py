@@ -28,7 +28,7 @@ class BillOfMaterialsProvider:
         # all types of exceptions thrown by .raise_for_status() are subclasses of requests.exceptions.RequestException
         # therefore we only check for that
         # individual except blocks for HTTPError, ConnectionError etc... are not required in this assignment
-        except requests.exceptions.RequestException  as e:
+        except requests.exceptions.RequestException:
             t = tries + 1; sleep(BillOfMaterialsProvider.BACKOFF_FACTOR * (2**(t - 1)))
             return self.fetch(t)
         
