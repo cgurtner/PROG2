@@ -6,7 +6,6 @@ class BillOfMaterials:
     
     def print_bill(self) -> None:
         df = self.api.get_data()
-        total = df['cost'].sum()
         s = ''
 
         for index in df.index:
@@ -20,7 +19,7 @@ class BillOfMaterials:
         s += '----------------+----------\n'
         s += '{position} | {total}'.format(
             position=BillOfMaterials.format_position('SUM'), 
-            total=BillOfMaterials.format_cost(total)
+            total=BillOfMaterials.format_cost(self.api.get_total())
         )
         
         print(s)

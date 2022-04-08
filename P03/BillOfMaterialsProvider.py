@@ -13,6 +13,9 @@ class BillOfMaterialsProvider:
     def get_data(self) -> pd.DataFrame:
         return self.__data
 
+    def get_total(self) -> float:
+        return self.__data['cost'].sum()
+
     # thoughts:
     # the server returns a 500er HTTP-Code
     # this is usually a server-sided problem of the api and not a problem with the request
