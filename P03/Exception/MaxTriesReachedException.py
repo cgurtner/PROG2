@@ -1,0 +1,2 @@
+class MaxTriesReachedException(Exception):
+    pass

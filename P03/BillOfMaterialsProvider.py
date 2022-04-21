@@ -2,9 +2,12 @@ from time import sleep
 import pandas as pd
 import requests
 
+from Exception.MaxTriesReachedException import MaxTriesReachedException
+
 class BillOfMaterialsProvider:
     API_URL = 'http://160.85.252.148'
     BACKOFF_FACTOR = 1
+    MAX_TRIES = 1
 
     def __init__(self):
         data = self.fetch()
@@ -29,9 +32,12 @@ class BillOfMaterialsProvider:
         # therefore we only check for that
         # individual except blocks for HTTPError, ConnectionError etc... are not required in this assignment
         except requests.exceptions.RequestException:
+            if tries - 1 == BillOfMaterialsProvider.MAX_TRIES: raise MaxTriesReachedException('MAX_TRIES limit reached! Aborting fetch...')
             t = tries + 1; sleep(BillOfMaterialsProvider.BACKOFF_FACTOR * (2**(t - 1)))
             return self.fetch(t)
-        
+        except MaxTriesReachedException as e:
+            raise e
+
     def clean(self, dt) -> pd.DataFrame:
         tmp = {}
 
@@ -49,5 +55,8 @@ class BillOfMaterialsProvider:
         return df
 
 if __name__ == '__main__':
-    bom = BillOfMaterialsProvider()
-    print(bom.get_data())
+    try:
+        bom = BillOfMaterialsProvider()
+        print(bom.get_data())
+    except Exception as e:
+        print(e)
