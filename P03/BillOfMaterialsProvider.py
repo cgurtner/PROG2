@@ -7,7 +7,7 @@ from Exception.MaxTriesReachedException import MaxTriesReachedException
 class BillOfMaterialsProvider:
     API_URL = 'http://160.85.252.148'
     BACKOFF_FACTOR = 1
-    MAX_TRIES = 1
+    MAX_TRIES = 10
 
     def __init__(self):
         data = self.fetch()
