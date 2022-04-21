@@ -31,6 +31,9 @@ class BillOfMaterials:
         return '{:<15}'.format(p)
 
 if __name__ == '__main__':
-    bom = BillOfMaterials()
-    bom.print_bill()
+    try:
+        bom = BillOfMaterials()
+        bom.print_bill()
+    except Exception as e:
+        print(e)
     
