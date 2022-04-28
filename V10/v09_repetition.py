@@ -27,5 +27,5 @@ print(points['Points'].nlargest(n=3))
 
 # Aufgabe 6
 print('\nAufgabe 6\n')
-points['note'] = (points['Points']*5 / 100) + 1
+points['Grade'] = (points['Points']*5 / 100) + 1
 print(points)
